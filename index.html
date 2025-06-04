@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassCovered - School Schedule Tool</title> 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print-style.css" media="print"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+    <div class="app-container"> 
+        <div class="left-panel" id="leftPanel"> 
+            
+            <div class="app-header">
+                <h1>ClassCovered</h1> 
+                <p class="attribution-main">
+                    By Paul Dietrich | <a href="https://www.dietrichucation.com" target="_blank" rel="noopener noreferrer">www.dietrichucation.com</a>
+                    <br> 
+                    Created with Google AI Studio
+                </p>
+            </div>
+
+            <section id="upload-section">
+                <h2>1. Upload Master Schedule</h2>
+                <p>Expected columns: <code>Teacher Name, Department, Period 1, ...</code>. Use <code>PREP</code> for preparation periods.</p>
+                <p>Download a <a href="https://drive.google.com/file/d/12ENP53KwyDkdaP-RJwDU6AYtkLMfzXk_/view?usp=drive_link" target="_blank">template CSV here</a>.</p>
+                <input type="file" id="csvFile" accept=".csv">
+                <p id="file-status">No file selected.</p>
+            </section>
+
+            <section id="pd-selection-section">
+                <h2>2. Teacher Absence Setup</h2> 
+                <div id="periods-selection">
+                    <h3>Default Periods of Absence (can be customized per teacher below):</h3> 
+                    <div id="periodsChecklistDiv"><p>Waiting for schedule upload...</p></div>
+                </div>
+                <div id="department-filter-section">
+                    <h3>Filter Teachers by Department (for absence selection):</h3>
+                    <div id="departmentChecklistForFilter"><p>Waiting for schedule upload...</p></div>
+                </div>
+                <div id="teacher-selection">
+                    <h3>Select Teachers Who Will Be Absent:</h3> 
+                    <div id="teachersChecklist"><p>Waiting for schedule upload or department filter selection...</p></div>
+                    <button id="confirmPdTeachersButton" style="display:none; margin-top:10px;">Confirm Teachers & Set Absence Periods</button>
+                    <!-- REMOVED: confirmedPdTeachersDisplayArea div -->
+                </div>
+
+                <div id="teacher-specific-pd-periods-section" style="display:none;">
+                    <!-- RETITLED H3 here -->
+                    <h3>Confirm Absences:</h3> 
+                    <p><em>Uncheck periods a teacher will be <strong>present</strong> for. Checked periods mean they are <strong>absent</strong>. Use 'X' to remove a teacher.</em></p>
+                    <div id="teacherSpecificPeriodsChecklist">
+                        <!-- JS will populate this with teacher groups, now including a remove button per teacher -->
+                    </div>
+                </div>
+                
+                <section id="pre-assignment-section" style="display:none; margin-top:20px; padding-top:15px; border-top: 1px solid #007bff;">
+                    <h2>3. Pre-Assign Known External Substitutes (Optional)</h2>
+            
+                    <div id="pre-assign-dedicated-subs-ui">
+                        <h4>A. Dedicated Substitutes Already Assigned</h4>
+                        <p>For each absent teacher below, indicate if a specific dedicated substitute is already covering all their classes.</p>
+                        <div id="preAssignDedicatedSubsList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9;">
+                            <p class="placeholder-text">Confirm PD teachers to see options.</p>
+                        </div>
+                    </div>
+            
+                    <div id="pre-assign-roving-subs-ui" style="margin-top: 20px;">
+                        <h4>B. Roving Substitutes Available for Initial Assignment</h4>
+                        <div>
+                            <label for="numPreRovingSubsAvailable">Number of <strong>Roving</strong> Subs for initial manual assignment:</label>
+                            <input type="number" id="numPreRovingSubsAvailable" value="0" min="0" style="width: 60px;">
+                            <div id="preRovingSubNameFieldsContainer" class="sub-name-fields" style="margin-top: 5px;">
+                            </div>
+                        </div>
+                    </div>
+            
+                    <button id="proceedToAssignInitialRovingButton" style="margin-top: 15px; background-color: #28a745;">Proceed to Assign Initial Roving Subs</button>
+                </section>
+
+                <button id="finalizeExternalSubsAndProceedToInHouseButton" style="display:none; margin-top:20px; background-color: #007bff;">Finalize External Subs & Proceed to In-House</button>
+
+                <div id="manual-in-house-assignment-ui" style="display:none; margin-top:15px; padding-top:15px; border-top: 1px solid #007bff;">
+                    <h2>4. Manual In-House Assignment (Optional)</h2>
+                    <p class="placeholder-text">
+                        For any classes below (still needing coverage after external subs), you can manually select an available in-house teacher.
+                        These choices will override automatic in-house assignments.
+                    </p>
+                    <div id="manualInHouseAssignmentsContainer" style="margin-top:10px;">
+                         <p class="placeholder-text">Finalize external sub assignments to see in-house options here.</p>
+                    </div>
+                    <button id="coverClassesWithInHouseButton" style="display:none; margin-top:15px; background-color:#17a2b8;">Cover Remaining with In-House & Analyze</button>
+                </div>
+                
+                <button id="analyzeButton" style="display:none;" disabled>Analyze Schedule & Suggest Coverage</button>
+
+            </section>
+
+            <section id="results-section" style="display:none;"> 
+                <h2 id="resultsSectionHeading">5. Detailed Analysis & Scenario Planning</h2> 
+                <div id="error-message" class="error"></div>
+                
+                <h3 id="pdTeachersListHeading" style="display:none;">Teachers Absent (and their specific affected periods):</h3> 
+                <ul id="pdTeachersList" style="display:none;"></ul>
+
+                <h3 id="overallExternalSubsHeading" style="display:none;">Overall External Substitutes Indicated:</h3>
+                <p id="externalSubsNeeded" style="display:none;">--</p>
+
+                <h3 id="initialCoverageBreakdownHeading" style="display:none;">Coverage Breakdown (Textual Summary):</h3>
+                <div id="coverageBreakdownDiv" style="display:none;"><p class="no-coverage">--</p></div>
+                
+                <p id="finalSubsNeededContainer" style="display:none;"><strong>Total external subs indicated (before scenario planning): <span id="finalSubsNeeded">--</span></strong></p>
+
+                <div id="scenario-planning-section" style="display: none;">
+                    <hr class="dashed-hr">
+                    <h3 id="scenarioPlanningTitleHeading">Scenario Planning: Optimize Substitute Usage (Additional Subs)</h3>
+                    <div>
+                        <label for="numDedicatedSubsToAssign">Number of <strong>Additional Dedicated</strong> External Subs to assign:</label>
+                        <input type="number" id="numDedicatedSubsToAssign" value="0" min="0">
+                        <div id="dedicatedSubNameFieldsContainer" class="sub-name-fields"></div> 
+                    </div>
+                    <div id="assignDedicatedSubsToTeachersDiv">
+                         <p class="placeholder-text">Define additional dedicated subs to see assignment options for remaining uncovered teachers.</p>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <label for="numRovingSubsAvailable">Number of <strong>Additional Roving</strong> External Subs available:</label>
+                        <input type="number" id="numRovingSubsAvailable" value="0" min="0">
+                        <div id="rovingSubNameFieldsContainer" class="sub-name-fields"></div> 
+                    </div>
+                    <button id="applyScenarioButton">Run Scenario & Calculate Coverage</button>
+                    <button id="manualRovingAssignModeButton" style="display:none; margin-left: 10px;">Enter Manual Roving Assign Mode (for Scenario Subs)</button> 
+                    
+                    <div id="scenarioResults"></div>
+                </div>
+                <div id="print-download-section" style="margin-top: 30px; text-align: center; display: none;">
+                    <hr class="dashed-hr">
+                    <h3>Export Plan</h3>
+                    <button id="printButton">Print your Covered Classes!</button>
+                </div>
+            </section>
+        </div> 
+
+        <div class="right-panel" id="rightPanel"> 
+            <section id="visual-schedule-display-section" class="printable-section"> 
+                <h2>Master Schedule</h2> 
+                <div id="visualScheduleTableContainer">
+                    <p class="placeholder-text">Upload a schedule to see the visual display.</p>
+                </div>
+                <div id="manual-assign-info" style="display:none; margin-top:10px; padding:10px; background-color:#e6f7ff; border-radius:4px;">
+                    <p><strong>Manual Roving Sub Assignment Mode:</strong> Click on a highlighted "Needs Cover" or "In-House" covered cell in the schedule above to assign a roving sub.
+                       Enter the Roving Sub number (e.g., 1 for RS1) or 0 to clear. Max Roving Subs available: <span id="maxRovingSubsInfo">0</span>.
+                    </p>
+                    <button id="finalizeManualAssignmentsButton" style="display:none;">Finalize Manual Roving Assignments & Update Summary</button>
+                </div>
+            </section>
+        </div> 
+    </div> 
+
+    <script src="script.js"></script>
+</body>
+</html>
