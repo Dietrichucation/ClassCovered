@@ -1,0 +1,210 @@
+/* print-style.css (for new print window) */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 10pt; 
+    line-height: 1.3;
+    background-color: #fff !important; 
+    color: #000 !important; 
+    -webkit-print-color-adjust: exact !important; 
+    color-adjust: exact !important; 
+    margin: 0 !important; /* Body margin is handled by @page */
+}
+
+@page {
+    size: A4 landscape; 
+    margin: 0.5in !important; 
+}
+
+/* Titles (these are classes you'd add to cloned elements in JS if needed, or style existing ones) */
+.print-main-title { /* For "ClassCovered" */
+    text-align: center;
+    font-size: 18pt !important;
+    color: #000 !important;
+    margin-bottom: 5mm;
+    border-bottom: 1px solid #000;
+    padding-bottom: 3mm;
+    page-break-after: avoid;
+}
+.print-section-title { /* For "Master Schedule" or "Coverage Summary" */
+    text-align: center;
+    font-size: 16pt !important;
+    color: #000 !important;
+    margin-top: 8mm;
+    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #333;
+    page-break-after: avoid;
+}
+.print-sub-heading { /* For H3 level like "Teachers Selected for PD" or summary parts */
+    font-size: 12pt !important; 
+    color: #000 !important;
+    border-bottom: 1px dotted #ccc !important;
+    margin-top: 6mm;
+    margin-bottom: 2mm;
+    page-break-after: avoid;
+}
+.print-teacher-heading { /* For H4 level per-teacher coverage */
+    font-size: 11pt !important;
+    color: #000 !important;
+    margin-top: 4mm;
+    margin-bottom: 1mm;
+    page-break-after: avoid;
+    border-bottom: none !important; 
+}
+
+
+/* Visual Schedule Table for Print */
+.schedule-table {
+    width: 100% !important; /* Table itself takes full available width */
+    font-size: 7pt !important; 
+    border-collapse: collapse !important; 
+    table-layout: fixed !important; 
+    page-break-inside: auto; 
+    margin-top: 3mm;
+    margin-bottom: 5mm; 
+}
+.schedule-table tr { page-break-inside: avoid; page-break-after: auto; }
+.schedule-table th, .schedule-table td {
+    border: 1px solid #666 !important; 
+    padding: 3px !important; 
+    color: #000 !important; 
+    background-color: #fff !important; 
+    overflow-wrap: break-word; 
+    white-space: normal !important; 
+}
+.schedule-table th { background-color: #eee !important; font-weight: bold; }
+.schedule-table td:first-child, .schedule-table th:first-child {
+    background-color: #f5f5f5 !important; 
+    border-right: 1px solid #666 !important;
+}
+.schedule-table tr.pd-teacher-row td:first-child { background-color: #e0e0e0 !important; }
+.schedule-table td.pd-affected-cell { background-color: #f0f0f0 !important; }
+.schedule-table td.pd-affected-cell.prep-during-pd { background-color: #dcdcdc !important; font-weight: bold;}
+.schedule-table td.is-prep { color: #333 !important; font-weight: bold; }
+.schedule-table td.needs-coverage-visual { background-color: #ffe0e0 !important; border: 1px solid #c00 !important; color: #c00 !important; }
+.schedule-table td.covered-by-inhouse-visual { background-color: #e0efff !important; } 
+.schedule-table td.covered-by-roving-visual,
+.schedule-table td.covered-by-manual-roving-visual { background-color: #fff8e0 !important; } 
+.schedule-table td.covered-by-dedicated-visual { background-color: #efefef !important; } 
+.schedule-table td .coverage-detail { 
+    font-size: 0.95em !important; 
+    color: #333 !important; 
+    margin-top: 1px; 
+    display: block; 
+    font-style: italic;
+}
+
+
+/* Textual Lists and Paragraphs for Print */
+ul.print-list { list-style-type: none; padding-left: 0; margin-top: 2mm; margin-bottom: 4mm;}
+li.print-list-item {
+    background-color: #fff !important; 
+    border: 1px solid #f0f0f0 !important; 
+    color: #000 !important; 
+    padding: 4px; 
+    margin-bottom: 2px; 
+    font-size: 9pt !important;
+}
+p.print-paragraph { margin: 3mm 0; font-size: 10pt !important; }
+
+/* Scenario Summary Specific Styling (also used for overall summary items if classes match) */
+hr.print-hr { display: block !important; margin: 8mm 0; border:0; border-top: 1px solid #888; }
+.print-scenario-summary-item { 
+    font-weight: normal; 
+    font-size: 10pt !important;
+    margin-top: 3px; 
+    margin-bottom: 3px; 
+    padding: 2px;
+    border: none !important; 
+    background-color: transparent !important;
+}
+.print-scenario-summary-item strong { font-weight: bold !important; }
+
+
+.print-coverage-item { border-left: 2px solid #aaa !important; }
+.print-uncovered-item { border-left: 2px solid #555 !important; background-color: #f8f8f8 !important; }
+.print-external-sub-item { border-left: 2px solid #000 !important; font-weight: bold; }
+.print-no-coverage { font-style: italic; color: #555; border: 1px dashed #ccc; padding: 5px; }
+
+/* --- START: ADDED/MODIFIED FOR TWO-COLUMN SUMMARY --- */
+.print-summary-details-columns {
+    column-count: 2;
+    column-gap: 15mm; /* Adjust gap between columns */
+    margin-top: 5mm;
+    orphans: 3; /* Minimum lines at bottom of a column before break */
+    widows: 3;  /* Minimum lines at top of a column after break */
+}
+
+.print-summary-details-columns > .print-sub-heading {
+    /* Headings that start a major section of the summary */
+    column-span: all; /* Make these headings span across all columns */
+    text-align: left; /* Or center if preferred, but left is common for section heads */
+    border-bottom: 1px solid #555 !important; /* Stronger border for main summary section headings */
+    margin-top: 8mm; /* More space before these major headings */
+}
+.print-summary-details-columns > .print-sub-heading:first-child {
+    margin-top: 0; /* No extra top margin for the very first heading in the summary */
+}
+
+
+.print-summary-details-columns .print-teacher-heading { /* For H4 within a column (per teacher) */
+    break-before: auto; /* Default behavior, let browser decide */
+    break-inside: avoid; /* Try not to break inside a teacher's heading + their list */
+    page-break-inside: avoid;
+    margin-top: 3mm; /* Space before each teacher's summary block */
+}
+
+.print-summary-details-columns ul.print-list {
+    margin-top: 1mm;
+    margin-bottom: 3mm; /* Space after a list of coverages */
+}
+
+.print-summary-details-columns li.print-list-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid; 
+    padding: 3px; /* Slightly less padding for items in columns */
+    font-size: 8.5pt !important; /* Slightly smaller font for column content */
+    border: 1px solid #eaeaea !important; /* Lighter border for items in columns */
+}
+.print-summary-details-columns li.print-list-item ul {
+    padding-left: 10px; /* Indent nested lists within list items */
+    margin-top: 1px;
+}
+.print-summary-details-columns li.print-list-item ul li.print-list-item {
+    border: none !important; /* No border for sub-list items if nested */
+    padding: 1px 0;
+    font-size: 8pt !important;
+}
+
+
+.print-summary-details-columns hr.print-hr {
+    column-span: all; /* Make HRs span all columns if they are direct children */
+    margin-top: 5mm;
+    margin-bottom: 5mm;
+}
+/* --- END: ADDED/MODIFIED FOR TWO-COLUMN SUMMARY --- */
+
+
+/* Elements from the main page that should not appear in the dedicated print window at all */
+.left-panel .app-header .attribution-main,
+.left-panel #upload-section,
+.left-panel #pd-selection-section, /* This hides a lot, ensure you don't need any text from it */
+.left-panel #pre-assignment-section, /* Hide pre-assignment section */
+.left-panel #manual-in-house-assignment-ui, /* Hide manual in-house section */
+.left-panel #scenario-planning-section input,
+.left-panel #scenario-planning-section label,
+.left-panel #scenario-planning-section #assignDedicatedSubsToTeachersDiv,
+.left-panel #scenario-planning-section .sub-name-fields,
+.left-panel #scenario-planning-section button, 
+.right-panel #manual-assign-info,
+#print-download-section, 
+.error, 
+button#confirmPdTeachersButton, 
+button#analyzeButton,
+button#finalizeManualAssignmentsButton,
+button#proceedToAssignInitialRovingButton,
+button#finalizeExternalSubsAndProceedToInHouseButton,
+button#coverClassesWithInHouseButton {
+    display: none !important;
+}

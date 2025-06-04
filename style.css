@@ -1,0 +1,341 @@
+/* Reset and Basic Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    line-height: 1.6;
+    margin: 0;
+    padding: 0; 
+    background-color: #f8f9fa; 
+    color: #343a40; 
+    height: 100vh; 
+    overflow: hidden; 
+}
+
+/* App Container for Split Layout */
+.app-container {
+    display: flex;
+    height: 100vh; 
+    width: 100vw; 
+    overflow: hidden; 
+}
+
+/* Left Panel Styles - Fixed Width */
+.left-panel {
+    width: 33%; 
+    min-width: 320px; 
+    padding: 0; 
+    overflow-y: auto; 
+    height: 100vh; 
+    box-sizing: border-box;
+    border-right: 2px solid #dee2e6; 
+    background-color: #fff; 
+    position: relative; 
+}
+
+/* App Header Styles */
+.app-header {
+    background-color: #e6f0ff; 
+    padding: 20px 25px; 
+    text-align: center;
+    border-bottom: 1px solid #cce0ff; 
+    position: sticky; 
+    top: 0;
+    z-index: 20; 
+}
+.app-header h1 { margin-top: 0; margin-bottom: 5px; font-size: 2.2em; color: #004085; }
+.app-header .attribution-main { font-size: 0.85em; color: #547294; margin: 0; }
+.app-header .attribution-main a { color: #0056b3; text-decoration: none; }
+.app-header .attribution-main a:hover { text-decoration: underline; }
+
+.left-panel section { 
+    padding: 0 25px; margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px solid #dee2e6;
+}
+.left-panel section:first-of-type { margin-top: 25px; }
+.left-panel section:last-child { border-bottom: none; }
+
+/* Right Panel Styles - Fixed Width */
+.right-panel {
+    width: 67%; 
+    min-width: 480px; 
+    padding: 25px; 
+    overflow: hidden; 
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex; 
+    flex-direction: column;
+    background-color: #fff; 
+    position: relative;
+}
+
+#visual-schedule-display-section {
+    flex-grow: 1; display: flex; flex-direction: column;
+    overflow: hidden; border-bottom: none; margin-bottom: 0; 
+}
+#visualScheduleTableContainer { 
+    flex-grow: 1; overflow: auto; margin-top: 15px; 
+    border: 1px solid #dee2e6; border-radius: 5px; background-color: #fff; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+
+/* --- THEMING AND ELEMENT STYLES --- */
+h2 { border-bottom: 2px solid #0056b3; padding-bottom: 10px; font-size: 1.6em; margin-top: 0; color: #0056b3;}
+.right-panel #visual-schedule-display-section h2 { margin-top: 0; } 
+h3 { font-size: 1.3em; color: #007bff; margin-top: 20px; margin-bottom: 10px;}
+h4 { font-size: 1.1em; color: #17a2b8; border-bottom: 1px solid #e9ecef; padding-bottom: 5px; margin-top: 15px; margin-bottom: 10px;}
+
+input[type="file"], input[type="text"], input[type="number"], button {
+    padding: 10px 15px; margin-top: 8px; margin-bottom: 12px;
+    border: 1px solid #ced4da; border-radius: 4px; font-size: 1em; box-sizing: border-box;
+}
+input[type="file"] { display: block; width: 100%; }
+input[type="text"], input[type="number"] { width: auto; max-width: 200px; }
+
+button {
+    background-color: #007bff; color: white; cursor: pointer;
+    border: none; transition: background-color 0.2s ease-in-out;
+}
+button:hover { background-color: #0056b3; }
+button:disabled { background-color: #adb5bd; cursor: not-allowed; }
+
+#confirmPdTeachersButton { background-color: #17a2b8; } 
+#confirmPdTeachersButton:hover { background-color: #138496; }
+#manualRovingAssignModeButton, #finalizeManualAssignmentsButton { background-color: #ffc107; color: #212529; }
+#manualRovingAssignModeButton:hover, #finalizeManualAssignmentsButton:hover { background-color: #e0a800; }
+#printButton { background-color: #6c757d; } 
+#printButton:hover { background-color: #5a6268; }
+
+/* Specific button colors added during development */
+#proceedToAssignInitialRovingButton { background-color: #28a745; } /* Green */
+#proceedToAssignInitialRovingButton:hover { background-color: #218838; }
+#finalizeExternalSubsAndProceedToInHouseButton { background-color: #007bff; } /* Blue */
+#finalizeExternalSubsAndProceedToInHouseButton:hover { background-color: #0056b3; }
+#coverClassesWithInHouseButton { background-color: #17a2b8; } /* Teal */
+#coverClassesWithInHouseButton:hover { background-color: #117a8b; }
+
+
+#file-status { font-style: italic; color: #6c757d; margin-top: 5px; font-size: 0.9em; }
+.error {
+    color: #dc3545; font-weight: bold; margin-bottom: 15px; padding: 10px;
+    background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;
+}
+
+#pdTeachersList li {
+    background-color: #e6f7ff; padding: 8px 12px; border-left: 3px solid #007bff;
+    border-radius: 4px; margin-bottom: 6px;
+}
+
+#coverageBreakdownDiv ul, #scenarioResults ul { list-style-type: none; padding-left: 0; }
+#coverageBreakdownDiv li, #scenarioResults li { 
+     margin-bottom: 5px; padding: 8px 12px; border-radius: 4px;
+     border-left-width: 3px; border-left-style: solid;
+}
+.coverage-item { background-color: #d1ecf1; border-left-color: #0c5460; }
+.uncovered-item { background-color: #ffeeba; border-left-color: #ffc107; color: #856404; }
+.external-sub-item { background-color: #f8d7da; border-left-color: #dc3545; color: #721c24; font-weight: bold; }
+.no-coverage, #coverageBreakdownDiv > p.no-coverage, #scenarioResults > p.no-coverage {
+    background-color: #f8f9fa; padding: 10px; border: 1px dashed #ced4da;
+    border-radius: 4px; font-style: italic; color: #6c757d;
+}
+code { background-color: #e9ecef; padding: 3px 6px; border-radius: 3px; color: #c7254e; }
+
+#periodsChecklistDiv, #departmentChecklistForFilter, #teachersChecklist, #assignDedicatedSubsToTeachersDiv, #preAssignDedicatedSubsList {
+    display: flex; flex-wrap: wrap; gap: 10px; max-height: 150px; 
+    overflow-y: auto; padding: 15px; border: 1px solid #ced4da;
+    border-radius: 4px; background-color: #f8f9fa; margin-bottom: 15px;
+}
+/* Specific max-height for preAssignDedicatedSubsList if different */
+#preAssignDedicatedSubsList { max-height: 200px; }
+
+
+#periodsChecklistDiv > p, #departmentChecklistForFilter > p, #teachersChecklist > p, #assignDedicatedSubsToTeachersDiv > p, #preAssignDedicatedSubsList > p.placeholder-text {
+    width: 100%; text-align: center; color: #6c757d; margin: auto; /* Center placeholder text */
+}
+#periodsChecklistDiv label, #departmentChecklistForFilter label, 
+#teachersChecklist label, #assignDedicatedSubsToTeachersDiv label, 
+#preAssignDedicatedSubsList .pre-assign-dedicated-item label { /* Target specific label style for pre-assign */
+    display: block; padding: 8px 10px; background-color: #fff; border: 1px solid #ddd;
+    border-radius: 4px; cursor: pointer; flex-basis: calc(33.333% - 10px); 
+    box-sizing: border-box; transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    font-size: 0.9em; 
+}
+/* Ensure pre-assign items take full width if desired, or adjust flex-basis */
+#preAssignDedicatedSubsList .pre-assign-dedicated-item {
+    flex-basis: 100%; /* Make each item take full width */
+    display: flex; /* To align checkbox and input if needed */
+    align-items: center;
+}
+#preAssignDedicatedSubsList .pre-assign-dedicated-item label {
+    flex-grow: 1; /* Label takes available space */
+    border: none; /* Remove border from label inside item if it looks odd */
+    padding: 4px; /* Adjust padding */
+    background-color: transparent;
+}
+
+
+#departmentChecklistForFilter label { flex-basis: calc(25% - 10px); } /* Keep this for department filters */
+
+#periodsChecklistDiv label:hover, #departmentChecklistForFilter label:hover, 
+#teachersChecklist label:hover, #assignDedicatedSubsToTeachersDiv label:hover,
+#preAssignDedicatedSubsList .pre-assign-dedicated-item label:hover {
+    border-color: #007bff; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+#periodsChecklistDiv label input, #departmentChecklistForFilter label input, 
+#teachersChecklist label input, #assignDedicatedSubsToTeachersDiv label input,
+#preAssignDedicatedSubsList .pre-assign-dedicated-item input[type="checkbox"] {
+    margin-right: 8px; vertical-align: middle;
+}
+
+/* Per-Teacher PD Period Customization */
+#teacher-specific-pd-periods-section { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #007bff; }
+#teacherSpecificPeriodsChecklist .teacher-period-group {
+    margin-bottom: 15px; padding: 10px; background-color: #f0f8ff; 
+    border: 1px solid #e0eff8; border-radius: 4px;
+}
+#teacherSpecificPeriodsChecklist .teacher-period-group h5 { 
+    margin-top: 0; margin-bottom: 8px; font-size: 1em; color: #0056b3;
+}
+#teacherSpecificPeriodsChecklist .teacher-period-group .periods-for-teacher {
+    display: flex; flex-wrap: wrap; gap: 8px;
+}
+#teacherSpecificPeriodsChecklist .teacher-period-group .periods-for-teacher label {
+    display: inline-block; padding: 5px 8px; background-color: #fff;
+    border: 1px solid #ddd; border-radius: 3px; cursor: pointer; font-size: 0.85em;
+}
+#teacherSpecificPeriodsChecklist .teacher-period-group .periods-for-teacher label input {
+    margin-right: 4px; vertical-align: middle;
+}
+
+/* Manual In-House Assignment UI */
+#manual-in-house-assignment-ui { 
+    margin-top: 15px; padding: 15px; background-color: #e9f7fd;
+    border: 1px solid #bce8f1; border-radius: 4px;
+}
+#manual-in-house-assignment-ui h4 { margin-top: 0; color: #31708f; }
+#manual-in-house-assignment-ui > p.placeholder-text { 
+    font-style: italic; color: #31708f; font-size: 0.9em; 
+    margin:0; 
+}
+#manualInHouseAssignmentsContainer .manual-in-house-slot { 
+    margin-bottom: 18px; 
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d6e9c6; 
+}
+#manualInHouseAssignmentsContainer .manual-in-house-slot:last-child { border-bottom: none; }
+#manualInHouseAssignmentsContainer .manual-in-house-slot p.slot-info { 
+    margin: 0 0 8px 0; 
+    font-weight: bold;
+    font-size: 1.05em; 
+    color: #2c3e50; 
+}
+#manualInHouseAssignmentsContainer .manual-in-house-slot .available-teachers-list {
+    padding-left: 15px; 
+}
+#manualInHouseAssignmentsContainer .manual-in-house-slot .available-teachers-list label { 
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 3px;
+}
+#manualInHouseAssignmentsContainer .manual-in-house-slot .available-teachers-list label:hover {
+    background-color: #d4edda; 
+}
+#manualInHouseAssignmentsContainer .manual-in-house-slot .available-teachers-list input[type="radio"] {
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+
+/* Styling for sub name input fields */
+.sub-name-fields { margin-top: 10px; padding-left: 10px; }
+.sub-name-fields div { margin-bottom: 8px; display: flex; align-items: center; flex-wrap: wrap; }
+.sub-name-fields label { margin-right: 8px; font-size: 0.9em; min-width: 160px; flex-shrink: 0; }
+.sub-name-fields input[type="text"] {
+    flex-grow: 1; min-width: 150px; max-width: 280px; 
+    padding: 6px 8px; font-size: 0.9em; margin-top: 0; margin-bottom: 0;
+}
+.sub-name-fields h5 { margin-bottom: 10px; font-size: 0.95em; color: #333; font-weight: bold; }
+
+#scenario-planning-section { margin-top: 30px; padding-top: 25px; }
+.dashed-hr { border: 0; border-top: 2px dashed #007bff; margin: 25px 0; }
+#scenarioResults h4 { color: #28a745; margin-top: 20px; }
+#manual-assign-info { border: 1px solid #b8daff; }
+
+
+/* Visual Schedule Table Styles */
+#visualScheduleTableContainer .placeholder-text { text-align: center; color: #6c757d; padding: 20px; font-size: 1em; }
+.schedule-table { width: 100%; border-collapse: collapse; table-layout: auto; font-size: 0.85em; }
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ccc; padding: 6px 8px; text-align: left;
+    overflow: hidden; vertical-align: top; white-space: normal; 
+}
+.schedule-table th { background-color: #e9ecef; font-weight: bold; position: sticky; top: 0; z-index: 10; min-width: 70px; }
+.schedule-table td:first-child { 
+    font-weight: bold; background-color: #f8f9fa !important; min-width: 130px; 
+    position: sticky; left: 0; z-index: 5; border-right: 2px solid #adb5bd !important; 
+}
+.schedule-table th:first-child { 
+    background-color: #e9ecef !important; position: sticky; left: 0; z-index: 11; 
+    border-right: 2px solid #adb5bd !important;
+}
+.schedule-table tr.pd-teacher-row > td { background-color: #f0fff0; } /* Light green for whole row of PD teacher */
+.schedule-table tr.pd-teacher-row td:first-child { background-color: #c3e6cb !important; } /* Darker green for PD teacher name cell */
+
+.schedule-table td.pd-affected-cell { background-color: #d4edda !important; font-style: italic; } /* Greenish for cells during PD */
+.schedule-table td.pd-affected-cell.prep-during-pd { background-color: #b8dfb8 !important; font-style: normal; font-weight: bold; } /* Darker green for PREP during PD */
+
+.schedule-table td.is-prep { color: #007bff; font-weight: bold; }
+
+.schedule-table td.needs-coverage-visual { background-color: #f8d7da !important; border: 2px solid #dc3545 !important; color: #721c24; }
+.schedule-table td.covered-by-inhouse-visual { background-color: #d1ecf1 !important; border: 1px dashed #0c5460; }
+.schedule-table td.covered-by-roving-visual { background-color: #fff3cd !important; border: 1px dashed #856404; } 
+.schedule-table td.covered-by-manual-roving-visual { background-color: #ffe0b2 !important; border: 1px solid #fd7e14 !important; } 
+.schedule-table td.covered-by-dedicated-visual { background-color: #e2e3e5 !important; border: 1px dashed #343a40; }
+
+.schedule-table td .class-name-original { display: block; }
+.schedule-table td .coverage-detail { display: block; font-size: 0.85em; color: #495057; margin-top: 3px; font-style: italic; }
+.schedule-table td.covered-by-inhouse-visual .coverage-detail { color: #084250; }
+.schedule-table td.covered-by-roving-visual .coverage-detail { color: #66512c; }
+.schedule-table td.covered-by-manual-roving-visual .coverage-detail { color: #8c5307; font-weight: bold; }
+.schedule-table td.covered-by-dedicated-visual .coverage-detail { color: #1b1e21; }
+.schedule-table td.needs-coverage-visual .coverage-detail { color: #721c24; font-weight: bold; }
+
+/* Hover for assignable slots (both manual in-house and manual roving) */
+.schedule-table td.assignable-slot.clickable-for-assignment:hover,
+.schedule-table.manual-inhouse-active td.manual-inhouse-assignable:hover { 
+    cursor: pointer;
+    outline: 2px solid #0056b3; 
+    box-shadow: 0 0 8px rgba(0,86,179,.5);
+}
+.schedule-table td.manual-inhouse-assignable.covered-by-inhouse-visual {
+    /* Optional: if you want a different look for already in-house covered cells that are clickable */
+}
+
+/* Modal Styles (Currently unused by primary flow, but kept for potential future use) */
+.modal {
+    display: none; position: fixed; z-index: 100; left: 0; top: 0;
+    width: 100%; height: 100%; overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+.modal-content {
+    background-color: #fefefe; margin: 15% auto; padding: 20px;
+    border: 1px solid #888; width: 80%; max-width: 450px; 
+    border-radius: 8px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    position: relative;
+}
+.modal-close-button {
+    color: #aaa; float: right; font-size: 28px; font-weight: bold; line-height: 1;
+}
+.modal-close-button:hover, .modal-close-button:focus {
+    color: black; text-decoration: none; cursor: pointer;
+}
+.modal-content h4 { margin-top: 0; color: #0056b3; }
+.modal-content p { font-size: 0.95em; margin-bottom: 10px; }
+.modal-button {
+    background-color: #007bff; color: white; padding: 8px 15px;
+    margin: 10px 0 0 10px; border: none; border-radius: 4px; cursor: pointer;
+}
+.modal-button:hover { background-color: #0056b3; }
+.modal-button-clear { background-color: #dc3545; }
+.modal-button-clear:hover { background-color: #c82333; }
